@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Charges</title>
+    <link rel="icon" type="image" style="width:100%" href="./libraries/index/images/golo_logo.png" />
+    <link href="./admin_assets/css/styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
+
+    <!-- angular files -->
+    <script src="./libraries/js/angular.js"></script>
+    <script src="./libraries/js/angular-cookies.js"></script>
+    <script src="./libraries/lib/notification.js"></script>
+    <script src="./libraries/lib/angular-ui-notification.js"></script>
+    <script src="./angular/config.js"></script>
+    <link rel="stylesheet" href="./libraries/angular-ui-notification.min.css" />
+    <!-- STYLE FOR TOGGLE BUTTON -->
+
+<style>
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 81px;
+    height: 18px;
+  }
+
+  .switch input {
+    display: none;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    /* left: 0; */
+    right: 0;
+    bottom: 0;
+    background-color:tomato;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+    width: 84px;
+    margin-top: 5px;
+    margin-bottom: -8px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 5px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked+.slider {
+    background-color: #17b515e0;
+  }
+
+  input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(55px);
+  }
+
+  /*------ ADDED CSS ---------*/
+
+  .slider:after {
+    content: '   NOT-HOST';
+    color: white;
+    display: block;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 54%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+    width: 81px;
+  }
+
+  input:checked+.slider:after {
+    content: 'HOST';
+  }
+
+  
+</style>
+
+    <style>
+      /* Style the tab */
+      .active {
+  background-color: #1c74ff8f;
+}
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 15px;
+    font-weight: inherit
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+    </style>
+
+    <!-- page loader -->
+    <style>
+      .warning{
+   border:1px solid red;
+ }
+    </style>
+    <style>
+      .loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("./libraries/index/images/processing.gif") 50% 50%
+          no-repeat rgb(249, 249, 249);
+      }
+    </style>
+    <script src="./admin_assets/js/ajax/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(window).load(function () {
+        $(".loader").fadeOut("fast");
+      });
+    </script>
+  </head>
+
+  <body
+    class="sb-nav-fixed"
+    ng-app="dashboardApp"
+    ng-controller="AdashboardController"
+   
+  >
+    <div class="loader"></div>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+      <a class="navbar-brand" href="">
+        <img
+          align="center"
+          alt="Image"
+          border="0"
+          class="center autowidth"
+          src="./libraries/index/images/golo_logo.png"
+          style="
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            width: 100%;
+            max-width: 40px;
+            display: block;
+          "
+          title="Image"
+          width="165"
+        />
+       </a
+      >  <span style="margin-top: -3px;margin-left: -159px;margin-right: 110px;color: white;">Admin</span><button
+        class="btn btn-link btn-sm order-1 order-lg-0"
+        id="sidebarToggle"
+        href="#"
+      >
+        <i class="fas fa-bars"></i></button
+      ><!-- Navbar Search-->
+      <form
+        class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+      >
+       
+      </form>
+      <!-- Navbar-->
+      <ul class="navbar-nav ml-auto ml-md-0">
+      
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="userDropdown"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            ><i class="fas fa-user fa-fw"></i
+          ></a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="userDropdown"
+          >
+            <a class="dropdown-item" href="/admin-login">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div class="sb-sidenav-menu">
+            <div class="nav">
+              <!-- <div class="sb-sidenav-menu-heading">Dashboard</div> -->
+              <a class="nav-link" href="/dashboard"
+                ><div class="sb-nav-link-icon">
+                  <i class="fas fa-tachometer-alt"></i>
+                </div>
+                Dashboard</a
+              >
+              <!-- <div class="sb-sidenav-menu-heading">Users</div> -->
+              <!-- <a class="nav-link" href="/users">
+                <div class="sb-nav-link-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                Users
+              </a> -->
+
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                Users
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="/users">Normal-Users</a>
+                    <a class="nav-link" href="/hosts">Hosts</a>
+                </nav>
+            </div>
+
+              <a class="nav-link" href="/agency">
+                <div class="sb-nav-link-icon">
+                  <i class="fas fa-briefcase"></i>
+                </div>
+                Agencies
+              </a>
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+                Settings
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+              <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="/membership">Membership Settings</a>
+                    <a class="nav-link" href="/recharge">Recharge Settings</a>
+                    <a class="nav-link" href="/charges">Charge Settings</a>
+                </nav>
+            </div>
+             
+             
+
+             
+            </div>
+          </div>
+          <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Admin
+          </div>
+        </nav>
+      </div>
+     
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid">
+            <a class="navbar-brand" href="">
+              
+             </a>
+            
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h1 class="mt-4"><img src="./libraries/index/images/golo_logo.png" style="
+                    width: 40px;margin-top: -12px;
+                "/> Charges   <button type="submit" style="
+                  margin-top: -10px;
+              " class="btn btn-primary" data-toggle="modal" data-target="#userDetailsModelAdd"><span style='font-size:25px;color: #ccc;'>&#10010;</span></button></h1>
+                
+
+                  <div class="input-group">
+                    <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    ng-model="adminUsers"
+                    style="
+  /* margin-bottom: -24px; */
+  margin-top: -53px;
+"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" style="
+                    margin-top: -53px;
+                    margin-bottom: 15px;
+                ">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table
+                      class="table table-bordered table-hover"
+                      width="100%"
+                      cellspacing="0"
+                    >
+                    <thead style="
+                    background-color: #f7f7f7;
+                ">
+                      <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>User Spend</th>
+                        <th>Host Receive</th>
+                        <th >Action</th>
+                      </tr>
+                    </thead>
+  
+                    <tbody>
+                      <tr ng-repeat="user in allCharges | pagingAdmin:pageSizeByAdmin | filter : adminUsers">
+                        <td  >
+                          <label ng-if="user.category == 'video_call'">Video Call</label>
+                          <label ng-if="user.category == 'audio_call'">Audio Call</label>
+                          <label ng-if="user.category == 'secret_photo_unlock'">Secret Pic Unlock</label>
+                          <label ng-if="user.category == 'gift'">Gift</label>
+                        </td>
+                        <td  >
+                          {{user.type}}
+                        </td>
+                        <td  >
+                          {{user.userSpend.amount}} {{user.userSpend.type}} {{user.userSpend.duration}}
+                        </td>
+                        <td  >
+                          {{user.hostReceive.amount}} {{user.hostReceive.type}} {{user.hostReceive.duration}}
+                        </td>
+                      
+                        <td >
+                          <!-- <a href="" data-toggle="modal" data-target="#userDetailsModelEdit" data-ng-click="getUserDetails(user)">View Details</a> -->
+                          <a href="" data-toggle="modal" data-target="#userDetailsModelEdit" data-ng-click="getUserDetails(user)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          |
+                          <a href="" data-toggle="modal" style="color: red" data-target="#deleteMod" data-ng-click="settings(user)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                    </table>
+  
+                    <div>
+  
+                      <span>
+                        <input type="button" value="First " ng-click="NavFirstAdmin()" class=" btn btn-primary  btn-flat " title="First"></input>
+        
+                        <input type="button" value="<<" ng-click="NavPrevAdmin()" class=" btn btn-primary  btn-flat "></input>
+        
+                        <input type="button" value="{{ localObjectAdmin.pageNum }}" class=" btn btn-primary  btn-flat " title="previous"></input>
+        
+                        <input type="button" value=">>" ng-click="NavNextAdmin()" class="btn btn-primary  btn-flat" title="next"></input>
+        
+                        <input ng-if="TotalPagesAdmin()!=1" type="button" value="Last " ng-click="NavLastAdmin()" class=" btn btn-primary  btn-flat "
+                          title="Last"></input>
+                      </span>
+        
+                      <span style="float:right;">
+                        Page Size:
+                        <select style="width:40px;" ng-model="pageSizeByAdmin" ng-change="localObjectAdmin.reset()">
+                          <option value="2">2</option>
+                          <option value="5" selected>5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+           
+<!-- User details model -->
+
+<div id="userDetailsModelEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Update {{user.type}} charge details</h4>
+        <button type="button" class="close" data-ng-click="onClose()" data-dismiss="modal">&times;</button>
+      </div>
+      <form name="personForm" novalidate ng-submit="personForm.$valid &&sendForm()">
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Category</label>
+            <select class="form-control" ng-model="user.category" name='category' >
+              <option value="video_call">Video Call</option>
+              <option value="audio_call">Audio Call</option>
+              <option value="secret_photo_unlock">Secret Pic Unlock</option>
+              <option value="gift">Gift</option>
+            </select>
+           
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Type</label>
+            <input type="text" class="form-control"  ng-model="user.type"  >
+          </div>
+          
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">User spend / min (Dimonds)</label>
+            <input type="text" class="form-control"  ng-model="user.dimonds"  name='dimonds'  ng-pattern="/^\d{1,10}$/" autocomplete="off" required>
+            <span style="color:Red" ng-show="personForm.dimonds.$error.required"> Required! </span>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Host Receive / min (Points)</label>
+            <input type="text" class="form-control"  ng-model="user.points"  name='points'  ng-pattern="/^\d{1,10}$/" autocomplete="off" required>
+            <span style="color:Red" ng-show="personForm.points.$error.required"> Required! </span>
+          </div>
+    </div>             
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-if="user.type && user.dimonds && user.points" data-ng-click="updateCharges(user)">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+
+  <!--  User delete Modal -->
+  <div id="deleteMod" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content" style="align-items:center">
+        <div class="modal-header">
+          <h4 class="modal-title">Are you sure to delete {{userSettings.type}} details?</h4>
+        </div>
+        <div class="modal-body" style="align-items:center">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" data-ng-click="deleteCharge(userSettings)">Yes</button>
+        </div>
+      
+      </div>
+  
+    </div>
+  </div>
+<!-- User details add model -->
+
+<div id="userDetailsModelAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add new charge details</h4>
+        <button type="button" class="close" data-ng-click="onClose()" data-dismiss="modal">&times;</button>
+      </div>
+      <form name="personForm" novalidate ng-submit="personForm.$valid &&sendForm()">
+      <div class="modal-body">
+       
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Category</label>
+            <select class="form-control" ng-model="user.category" name='category' required>
+              <option value="video_call">Video Call</option>
+              <option value="audio_call">Audio Call</option>
+              <option value="secret_photo_unlock">Secret Pic Unlock</option>
+              <option value="gift">Gift</option>
+            </select>
+            <span style="color:Red" ng-show="personForm.category.$error.required"> Required! </span>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Type</label>
+            <input type="text" style="white-space: normal;"  class="form-control"  ng-model="user.type"  name='type'   autocomplete="off" required>
+            <span style="color:Red" ng-show="personForm.type.$error.required"> Required! </span>
+          </div>
+          
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">User Spend / min (Dimonds)</label>
+            <input type="text" class="form-control"  ng-model="user.dimonds"  name='dimonds'  ng-pattern="/^\d{1,10}$/" autocomplete="off" required>
+            <span style="color:Red" ng-show="personForm.dimonds.$error.required"> Required! </span>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputEmail4">Host Receive / min (Points)</label>
+            <input type="text" class="form-control"  ng-model="user.points"  name='points'  ng-pattern="/^\d{1,10}$/" autocomplete="off" required>
+            <span style="color:Red" ng-show="personForm.points.$error.required"> Required! </span>
+          </div>
+    </div> 
+      <div class="modal-footer">
+        <button type="submit" ng-if="user.category && user.type && user.dimonds && user.points " class="btn btn-primary" data-dismiss="modal" data-ng-click="addUser(user)">Create</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+           
+          </div>
+        </main>
+        <footer class="bg-light mt-auto">
+          <div class="container-fluid">
+            <div
+              class="d-flex align-items-center justify-content-between small"
+            >
+              <div class="text-muted">Copyright &copy; Golo 2020</div>
+              <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+      <script>
+        $(document).ready(function() {
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password input').attr("type") == "text"){
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass( "fa-eye-slash" );
+            $('#show_hide_password i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password i').addClass( "fa-eye" );
+        }
+    });
+});
+      </script>
+
+
+    <script src="./admin_assets/js/jquery-3.4.1.min.js"></script>
+    <script src="./admin_assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./admin_assets/js/scripts.js"></script>
+    <script src="./angular/charges.js"></script>
+  </body>
+</html>

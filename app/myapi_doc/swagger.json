@@ -1,0 +1,1575 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "GOLO-App",
+    "description": "API Documentation "
+  },
+  "schemes": ["https"],
+  "host": "golo.live",
+  "basePath": "/api/v1/",
+
+  "paths": {
+    "/admin/login": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "admin login",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "406": {
+            "description": "Not matched"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/admin/get-users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Get all users",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/admin/user/host": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Making user as Host",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+
+          {
+            "in": "body",
+            "name": "body",
+            "description": "admin making user as Host",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/makeHost"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/admin/agency/login": {
+      "post": {
+        "tags": ["Agency"],
+        "summary": "Login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Agency login",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/agencyLogin"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/agencyLogin"
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "406": {
+            "description": "Not matched"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/admin/agency/make-and-get-all-settlements": {
+      "post": {
+        "tags": ["Agency"],
+        "summary": "Settlements for dashboard",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+
+          {
+            "in": "body",
+            "name": "body",
+            "description": "admin making user as Host",
+            "schema": {
+              "$ref": "#/definitions/agencySettlement"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "406": {
+            "description": "Not matched"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Signup",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "userImage",
+            "type": "file",
+            "description": "User image"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Signup",
+            "schema": {
+              "$ref": "#/definitions/UsersRegistration"
+            }
+          }
+         
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UsersRegistration"
+            }
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User login",
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "406": {
+            "description": "Password not match"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/social-login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Social-Login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User social login select user email or contact-number any one and hit this api",
+            "schema": {
+              "$ref": "#/definitions/UserSocialLogin"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserSocialLogin"
+            }
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "406": {
+            "description": "Password not match"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/details/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user details",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "type": "string",
+            "description": "user _id",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/update-profile": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update user profile",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details",
+            "schema": {
+              "$ref": "#/definitions/userProfileUpdate"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "message": "Updated"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/get-list-of-opposite-gender": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get list of opposite genders",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/get-recommended-list": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get recommended list",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/get-nearby-list": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get nearby list",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/reset-password": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Reset password",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "New password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/resetPassword"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/resetPassword"
+            }
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/app-registration": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User app registration - This API has to be hitted after user login. ",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User details",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/appReg"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/appReg"
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/log-out": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User Logout - This API has to be hitted when user logout. ",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/upload-profile-image": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user profile pic",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "profile",
+            "type": "file",
+            "description": "User image",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/upload-greeting-audio": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user greeting audio",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "audio",
+            "type": "file",
+            "description": "User greeting audio",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/upload-normal-images": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user normal pics (limited to 5 pics)",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "userPhoto",
+            "type": "file",
+            "description": "Upload user normal pics (limited to 5 pics)",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/upload-secret-images": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Upload user secret pics (Only host and limited to 5 pics)",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "userSecretPhoto",
+            "type": "file",
+            "description": "Upload user normal pics (Only host and limited to 5 pics)",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "424": {
+            "description": "Failed"
+          },
+          "404": {
+            "description": "User Not found"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/get-access-token": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Agora - Get access token for Agora calls",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "channelName",
+            "type": "string",
+            "description": "Channel name for agora call",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "number",
+            "description": "uid",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "role",
+            "type": "string",
+            "description": "send it as publisher/subscriber",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "expireTime",
+            "type": "string",
+            "description": "Expire time in seconds",
+            "required": false
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/sendNotification": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Send push notification to user",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Send push notification to user",
+            "schema": {
+              "$ref": "#/definitions/pushNotification"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/follow": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Follow user (Send follower ID)",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Follow user",
+            "schema": {
+              "$ref": "#/definitions/follow"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/unfollow": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Un Follow user (Send follower ID)",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Un Follow user",
+            "schema": {
+              "$ref": "#/definitions/follow"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/recharge-wallet": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Recharge wallet",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User wallet recharge",
+            "schema": {
+              "$ref": "#/definitions/walletRecharge"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/get-wallet-details": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get wallet details",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/video-call-spending": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Spend on video call",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "call durentions need to be sent in seconds and hostId is _id value",
+            "schema": {
+              "$ref": "#/definitions/callSpending"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/audio-call-spending": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Spend on audio call",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "call durentions need to be sent in seconds and hostId is _id value",
+            "schema": {
+              "$ref": "#/definitions/callSpending"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/secret-pic-spending": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Spend on secret pic unlock",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "hostId is _id value",
+            "schema": {
+              "$ref": "#/definitions/secretPicSpending"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/gifts": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all gifts and amounts",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/gift-spending": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Spend on gift",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "hostId is _id value",
+            "schema": {
+              "$ref": "#/definitions/giftSpending"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/deleteProfilePic": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Delete Profile Pic",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "File Deleted"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/deleteSecretPic": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Delete secret Pic",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Send the secret pic url to be deleted",
+            "schema": {
+              "$ref": "#/definitions/picDelete"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "File Deleted"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/deleteNormalPic": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Delete normal Pic",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Send the normal pic url to be deleted",
+            "schema": {
+              "$ref": "#/definitions/picDelete"
+            }
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "File Deleted"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    },
+    "/users/deleteAudio": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Delete user greeting audio",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Enter your bearer token in the format **Bearer &lt;token>**",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "File Deleted"
+          },
+          "422": {
+            "description": "validation errors"
+          },
+          "500": {
+            "description": "Database errors"
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Admin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "makeHost": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UsersRegistration": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name"
+        },
+        "userName": {
+          "type": "string",
+          "description": "User Name, need to be unique"
+        },
+        "emailId": {
+          "type": "string",
+          "description": "User email, need to be unique"
+        },
+        "contactNumber": {
+          "type": "string",
+          "description": "User contact number, need to be unique and the format has to be +91 9738559081"
+        },
+        "phoneVerified": {
+          "type": "boolean",
+          "description": "User contact number verified or not, need to be verified on client side using firebase OTP verification. If verified send true else false"
+        },
+        "password": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "boolean",
+          "description": "if male then value= false, else if female value = true"
+        },
+        "location": {
+          "type": "string",
+          "description": "User location, Example : '[lat, lng]'"
+        },
+        "dob": {
+          "type": "string",
+          "description": "User date of birth, Example: yyyy-mm-dd"
+        },
+        "relationShipStatus": {
+          "type": "number",
+          "description": "User relationship status, (single = 0, married = 1, divorcee = 3, widow = 4)"
+        },
+        "height": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "greetingText": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        }
+      }
+    },
+    "userProfileUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dob": {
+          "type": "string"
+        },
+        "relationShipStatus": {
+          "type": "number"
+        },
+        "height": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "greetingText": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        }
+      }
+    },
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+
+        "contactNumber": {
+          "type": "string"
+        },
+
+        "location": {
+          "type": "string"
+        },
+
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserSocialLogin": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+
+        "contactNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "resetPassword": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "contactNumber": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "appReg": {
+      "type": "object",
+      "properties": {
+        "reg_id": {
+          "type": "string"
+        }
+      }
+    },
+    "pushNotification": {
+      "type": "object",
+      "properties": {
+        "receiverId": {
+          "type": "string"
+        },
+        "notificationTitle": {
+          "type": "string"
+        },
+        "notificationBody": {
+          "type": "string"
+        }
+      }
+    },
+    "follow": {
+      "type": "object",
+      "properties": {
+        "followId": {
+          "type": "string"
+        }
+      }
+    },
+    "walletRecharge": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "callSpending": {
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string"
+        },
+        "liveDuration": {
+          "type": "number"
+        },
+        "callDuration": {
+          "type": "number"
+        }
+      }
+    },
+    "secretPicSpending": {
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string"
+        }
+      }
+    },
+    "giftSpending": {
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string"
+        },
+        "gift": {
+          "type": "string"
+        }
+      }
+    },
+    "agencyLogin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "agencySettlement": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        }
+      }
+    },
+    "picDelete": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

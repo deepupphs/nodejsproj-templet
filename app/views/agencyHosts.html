@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Hosts</title>
+    <link
+      rel="icon"
+      type="image"
+      style="width: 100%"
+      href="./libraries/index/images/golo_logo.png"
+    />
+    <link href="./admin_assets/css/styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
+
+    <!-- angular files -->
+    <script src="./libraries/js/angular.js"></script>
+    <script src="./libraries/js/angular-cookies.js"></script>
+    <script src="./libraries/lib/notification.js"></script>
+    <script src="./libraries/lib/angular-ui-notification.js"></script>
+    <script src="./angular/config.js"></script>
+    <link rel="stylesheet" href="./libraries/angular-ui-notification.min.css" />
+    <!-- STYLE FOR TOGGLE BUTTON -->
+
+    <style>
+      /* Style the tab */
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+
+      /* Style the buttons inside the tab */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #fff;
+        border-top: none;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 81px;
+        height: 18px;
+      }
+
+      .switch input {
+        display: none;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        /* left: 0; */
+        right: 0;
+        bottom: 0;
+        background-color: tomato;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 34px;
+        width: 84px;
+        margin-top: 5px;
+        margin-bottom: -8px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 13px;
+        width: 13px;
+        left: 5px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #17b515e0;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(55px);
+      }
+
+      /*------ ADDED CSS ---------*/
+
+      .slider:after {
+        content: "   NOT-HOST";
+        color: white;
+        display: block;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 54%;
+        font-size: 10px;
+        font-family: Verdana, sans-serif;
+        width: 81px;
+      }
+
+      input:checked + .slider:after {
+        content: "HOST";
+      }
+    </style>
+
+    <style>
+      /* Style the tab */
+      .active {
+        background-color: #1c74ff8f;
+      }
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        width: 100%;
+      }
+
+      /* Style the buttons inside the tab */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 15px;
+        font-weight: inherit;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #fff;
+        border-top: none;
+      }
+    </style>
+
+    <!-- page loader -->
+    <style>
+      .warning {
+        border: 1px solid red;
+      }
+    </style>
+    <style>
+      .loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("./libraries/index/images/processing.gif") 50% 50%
+          no-repeat rgb(249, 249, 249);
+      }
+    </style>
+    <script src="./admin_assets/js/ajax/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(window).load(function () {
+        $(".loader").fadeOut("slow");
+      });
+    </script>
+  </head>
+
+  <body
+    class="sb-nav-fixed"
+    ng-app="dashboardApp"
+    ng-controller="AdashboardController"
+  >
+    <div class="loader"></div>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+      <a class="navbar-brand" href="">
+        <img
+          align="center"
+          alt="Image"
+          border="0"
+          class="center autowidth"
+          src="./libraries/index/images/golo_logo.png"
+          style="
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            width: 100%;
+            max-width: 40px;
+            display: block;
+          "
+          title="Image"
+          width="165"
+        /> </a
+      ><span
+        style="
+          margin-top: -3px;
+          margin-left: -159px;
+          margin-right: 110px;
+          color: white;
+        "
+        >Agency</span
+      ><button
+        class="btn btn-link btn-sm order-1 order-lg-0"
+        id="sidebarToggle"
+        href="#"
+      >
+        <i class="fas fa-bars"></i></button
+      ><!-- Navbar Search-->
+      <form
+        class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+      >
+        <span style="color: white">{{profile.name}}</span>
+      </form>
+      <!-- Navbar-->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="userDropdown"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            ><i class="fas fa-user fa-fw"></i
+          ></a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="userDropdown"
+          >
+            <a class="dropdown-item" href="/agency-login">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div class="sb-sidenav-menu">
+            <div class="nav">
+              <!-- <div class="sb-sidenav-menu-heading">Dashboard</div> -->
+              <a class="nav-link" href="/agency-dashboard"
+                ><div class="sb-nav-link-icon">
+                  <i class="fas fa-tachometer-alt"></i>
+                </div>
+                Dashboard</a
+              >
+              <a class="nav-link" href="/agency-hosts"
+                ><div class="sb-nav-link-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                Hosts</a
+              >
+              <a
+                class="nav-link collapsed"
+                href="#"
+                data-toggle="collapse"
+                data-target="#collapseLayouts"
+                aria-expanded="false"
+                aria-controls="collapseLayouts"
+              >
+                <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
+                Reports
+                <div class="sb-sidenav-collapse-arrow">
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </a>
+              <div
+                class="collapse"
+                id="collapseLayouts"
+                aria-labelledby="headingOne"
+                data-parent="#sidenavAccordion"
+              >
+                <nav class="sb-sidenav-menu-nested nav">
+                  <a class="nav-link" href="/agency-host-daily-report"
+                    >Daily Report</a
+                  >
+                </nav>
+              </div>
+
+              <a
+                class="nav-link collapsed"
+                href="#"
+                data-toggle="collapse"
+                data-target="#collapseLayouts1"
+                aria-expanded="false"
+                aria-controls="collapseLayouts"
+              >
+                <div class="sb-nav-link-icon"><i class="fa fa-file"></i></div>
+                Settlements
+                <div class="sb-sidenav-collapse-arrow">
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </a>
+              <div
+                class="collapse"
+                id="collapseLayouts1"
+                aria-labelledby="headingOne"
+                data-parent="#sidenavAccordion"
+              >
+                <nav class="sb-sidenav-menu-nested nav">
+                  <a class="nav-link" href="/agency-settlements"
+                    >All Settlements</a
+                  >
+                </nav>
+              </div>
+            </div>
+          </div>
+          <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Agency
+          </div>
+        </nav>
+      </div>
+
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid">
+            <a class="navbar-brand" href=""> </a>
+
+            <div class="card mb-4">
+              <div class="card-header">
+                <h1 class="mt-4">
+                  <img
+                    src="./libraries/index/images/golo_logo.png"
+                    style="width: 40px; margin-top: -12px"
+                  />
+                  Hosts
+                </h1>
+                <button
+                  type="submit"
+                  style="margin-top: -85px; margin-left: 163px"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#userDetailsModelAdd"
+                >
+                  <span style="font-size: 25px; color: #ccc">&#10010;</span>
+                </button>
+
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    ng-model="adminUsers"
+                    style="/* margin-bottom: -24px; */ margin-top: -53px"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      style="margin-top: -53px; margin-bottom: 15px"
+                    >
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered table-hover"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead style="background-color: #f7f7f7">
+                      <tr>
+                        <th>Poster</th>
+                        <th>Name</th>
+                        <th>User Name</th>
+                        <th>User ID</th>
+                        <th>Host - Status</th>
+                        <th>Creation date</th>
+                        <th>Wallet Balance</th>
+                        <!-- <th>View details</th> -->
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr
+                        ng-repeat="user in allUsers | pagingAdmin:pageSizeByAdmin | filter : adminUsers"
+                      >
+                        <td ng-if="user.userImage == ''">
+                          <img
+                            src="./libraries/index/images/woman.png"
+                            ng-if="user.gender == true"
+                            style="
+                              width: 50px;
+                              border-radius: 63px;
+                              height: 50px;
+                            "
+                            alt=""
+                          />
+                          <img
+                            src="./libraries/index/images/men.png"
+                            ng-if="user.gender == false"
+                            style="
+                              width: 50px;
+                              border-radius: 63px;
+                              height: 50px;
+                            "
+                            alt=""
+                          />
+                        </td>
+                        <td ng-if="user.userImage != ''">
+                          <img
+                            src="{{user.userImage}}"
+                            style="
+                              width: 50px;
+                              border-radius: 63px;
+                              height: 50px;
+                            "
+                            alt=""
+                          />
+                        </td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.userName}}</td>
+                        <td>{{user.userID}}</td>
+                        <td ng-if="user.host == false" style="color: red">
+                          Host - Pending
+                        </td>
+                        <td ng-if="user.host == true" style="color: green">
+                          Host - Approved
+                        </td>
+                        <td>
+                          {{user.created_date | date:'MM/dd/yyyy @ h:mma'}}
+                        </td>
+                        <td>
+                          {{user.wallet.amount | number:2}} {{user.wallet.type}}
+                        </td>
+                        <!-- <td>
+                          <a href="" data-toggle="modal" data-target="#userNormalPicsModel" data-ng-click="getUserNormalPics(user.normalPics)">View Normal Pics</a>
+                        </td>
+                        <td >
+                          <a href="" data-toggle="modal" data-target="#userSecretPicsModel" data-ng-click="userSecretPicsModel(user.secretPics)">View Secret Pics</a>
+                        </td> -->
+                        <!-- <td >
+                          <a href="" data-toggle="modal" data-target="#userDetailsModelEdit" data-ng-click="getUserDetails(user)">View Details</a>
+                        </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div>
+                    <span>
+                      <input
+                        type="button"
+                        value="First "
+                        ng-click="NavFirstAdmin()"
+                        class="btn btn-primary btn-flat"
+                        title="First"
+                      />
+
+                      <input
+                        type="button"
+                        value="<<"
+                        ng-click="NavPrevAdmin()"
+                        class="btn btn-primary btn-flat"
+                      />
+
+                      <input
+                        type="button"
+                        value="{{ localObjectAdmin.pageNum }}"
+                        class="btn btn-primary btn-flat"
+                        title="previous"
+                      />
+
+                      <input
+                        type="button"
+                        value=">>"
+                        ng-click="NavNextAdmin()"
+                        class="btn btn-primary btn-flat"
+                        title="next"
+                      />
+
+                      <input
+                        ng-if="TotalPagesAdmin()!=1"
+                        type="button"
+                        value="Last "
+                        ng-click="NavLastAdmin()"
+                        class="btn btn-primary btn-flat"
+                        title="Last"
+                      />
+                    </span>
+
+                    <span style="float: right">
+                      Page Size:
+                      <select
+                        style="width: 40px"
+                        ng-model="pageSizeByAdmin"
+                        ng-change="localObjectAdmin.reset()"
+                      >
+                        <option value="2">2</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- User details model -->
+
+            <div
+              class="modal fade"
+              id="userDetailsModelEdit"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="myModalLabel"
+            >
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="container emp-profile">
+                      <form method="post">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div
+                              ng-if="user.userImage == ''"
+                              class="profile-img"
+                            >
+                              <img
+                                src="./libraries/index/images/woman.png"
+                                ng-if="user.gender == true"
+                                alt=""
+                              />
+                              <img
+                                src="./libraries/index/images/men.png"
+                                ng-if="user.gender == false"
+                                alt=""
+                              />
+                            </div>
+                            <div
+                              ng-if="user.userImage != ''"
+                              class="profile-img"
+                            >
+                              <img src="{{user.userImage}}" alt="" />
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="profile-head">
+                              <h5>{{user.name}} ({{user.userName}})</h5>
+                              <h6>{{user.profession}}</h6>
+                              <p class="proile-rating">
+                                Points :
+                                <span
+                                  >{{user.wallet.amount}}
+                                  {{user.wallet.type}}</span
+                                >
+                              </p>
+                              <p class="proile-rating">
+                                Amount :
+                                <span
+                                  >$ {{user.wallet.amount *
+                                  onePointValue}}</span
+                                >
+                              </p>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-2">
+                      <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                  </div> -->
+                        </div>
+                        <div class="row">
+                          <p></p>
+                          <!-- <div class="col-md-4">
+                      <div class="profile-work">
+                          <p>WORK LINK</p>
+                          <a href="">Website Link</a><br/>
+                          <a href="">Bootsnipp Profile</a><br/>
+                          <a href="">Bootply Profile</a>
+                          <p>SKILLS</p>
+                          <a href="">Web Designer</a><br/>
+                          <a href="">Web Developer</a><br/>
+                          <a href="">WordPress</a><br/>
+                          <a href="">WooCommerce</a><br/>
+                          <a href="">PHP, .Net</a><br/>
+                      </div>
+                  </div> -->
+                          <div class="col-md-12">
+                            <div class="profile-head">
+                              <ul
+                                class="nav nav-tabs"
+                                id="myTab"
+                                role="tablist"
+                              >
+                                <li class="nav-item">
+                                  <a
+                                    class="nav-link active"
+                                    id="home-tab"
+                                    data-toggle="tab"
+                                    href="#home"
+                                    role="tab"
+                                    aria-controls="home"
+                                    aria-selected="true"
+                                    >About</a
+                                  >
+                                </li>
+                                <li class="nav-item">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#profile"
+                                    role="tab"
+                                    aria-controls="profile"
+                                    aria-selected="false"
+                                    >Contact details</a
+                                  >
+                                </li>
+                                <li class="nav-item">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#wallet"
+                                    role="tab"
+                                    aria-controls="profile"
+                                    aria-selected="false"
+                                    >Wallet</a
+                                  >
+                                </li>
+                                <li class="nav-item">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#normalPics"
+                                    role="tab"
+                                    aria-controls="normal"
+                                    aria-selected="false"
+                                    >Normal Pics</a
+                                  >
+                                </li>
+                                <li class="nav-item" ng-if="user.host == true">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#secretPics"
+                                    role="tab"
+                                    aria-controls="secret"
+                                    aria-selected="false"
+                                    >Secret Pics</a
+                                  >
+                                </li>
+                                <li class="nav-item" ng-if="user.host == true">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#greetings"
+                                    role="tab"
+                                    aria-controls="secret"
+                                    aria-selected="false"
+                                    >Greetings</a
+                                  >
+                                </li>
+                                <li class="nav-item" ng-if="user.host == true">
+                                  <a
+                                    class="nav-link"
+                                    id="profile-tab"
+                                    data-toggle="tab"
+                                    href="#pointOfIntrest"
+                                    role="tab"
+                                    aria-controls="secret"
+                                    aria-selected="false"
+                                    >Point of intrests</a
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-md-12">
+                            <div
+                              class="tab-content profile-tab"
+                              id="myTabContent"
+                            >
+                              <div
+                                class="tab-pane fade show active"
+                                id="home"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="home-tab"
+                              >
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>User Id</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.userID}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Date of Birth</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.dob}}</p>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Gender</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p ng-if="user.gender == false">Male</p>
+                                    <p ng-if="user.gender == true">Female</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Is Host</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p ng-if="user.host == false">No</p>
+                                    <p ng-if="user.host == true">Yes</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Is Recommended</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p ng-if="user.recommended == false">No</p>
+                                    <p ng-if="user.recommended == true">Yes</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                id="profile"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Email</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.emailId}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Phone</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.contactNumber}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Address</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.address}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>City</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.city}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>State</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.state}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Zip</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{user.zip}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                id="wallet"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Points</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>
+                                      <span
+                                        >{{user.wallet.amount}}
+                                        {{user.wallet.type}}</span
+                                      >
+                                    </p>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label>Amount</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>
+                                      <span
+                                        >$ {{user.wallet.amount *
+                                        onePointValue}}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                <!-- <div class="row">
+                              <div class="col-md-6">
+                                  <label>Rewards</label>
+                              </div>
+                              <div class="col-md-6">
+                                  <p>{{user.rewards.amount}}  {{user.rewards.type}}</p>
+                              </div>
+                          </div> -->
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                id="normalPics"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              ></div>
+                              <div
+                                class="tab-pane fade"
+                                id="secretPics"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              ></div>
+                              <div
+                                class="tab-pane fade"
+                                id="greetings"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              >
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Greeting Text</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{greetings.text}}</p>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <label>Greeting Audio</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p>{{greetings.audio}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="tab-pane fade"
+                                id="pointOfIntrest"
+                                role="tabpanel"
+                                style="background-color: #ffffff"
+                                aria-labelledby="profile-tab"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- User details add model -->
+
+            <div id="userDetailsModelAdd" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <!-- Tab content -->
+
+                <!-- Modal content-->
+
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <div class="tab">
+                      <button
+                        class="tablinks"
+                        onclick="openCity(event, 'London')"
+                      >
+                        Add Host details
+                      </button>
+                      <button
+                        class="tablinks"
+                        onclick="openCity(event, 'Paris')"
+                      >
+                        User ID Assignment
+                      </button>
+                    </div>
+                    <!-- <button type="button" class="close" data-ng-click="onClose()" data-dismiss="modal">&times;</button> -->
+                  </div>
+
+                  <div class="modal-body">
+                    <div id="London" class="tabcontent">
+                      <form
+                        name="personForm"
+                        novalidate
+                        ng-submit="personForm.$valid &&sendForm()"
+                      >
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.name"
+                              name="name"
+                              placeholder="Name"
+                              required
+                            />
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.name.$error.required"
+                            >
+                              Required!
+                            </span>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">Username</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.userName"
+                              ng-change="checkUsername(user.userName)"
+                              name="username"
+                              placeholder="Username"
+                              required
+                            />
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.username.$error.required"
+                            >
+                              Required!
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputPassword4">Phone</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.contactNumber"
+                              ng-change="checkPhone(user.contactNumber)"
+                              name="phone"
+                              ng-pattern="/^(\+|\d)+(\s)[0-9]{3,14}$/"
+                              placeholder="+91 9345274536"
+                              required
+                            />
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.phone.$error.required"
+                            >
+                              Required! Please enter phone number with cuntry
+                              code
+                            </span>
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.phone.$error.pattern"
+                              >Only Numbers Allowed and Mobile number should be
+                              in valid formate.</span
+                            >
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">Email</label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              ng-model="user.emailId"
+                              ng-change="checkMail(user.emailId)"
+                              name="email"
+                              placeholder="Email"
+                              ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/"
+                              autocomplete="off"
+                              required
+                            />
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.email.$error.required"
+                            >
+                              Required!
+                            </span>
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.email.$dirty&&personForm.email.$error.pattern"
+                              >Please Enter Valid Email</span
+                            >
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">Gender</label>
+                            <select
+                              class="form-control"
+                              ng-model="user.gender"
+                              name="gender"
+                              required
+                            >
+                              <option ng-value="true" selected>Female</option>
+                              <option ng-value="false">Male</option>
+                            </select>
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.gender.$error.required"
+                            >
+                              Required!
+                            </span>
+                          </div>
+                          <div
+                            class="form-group col-md-6"
+                            id="show_hide_password"
+                          >
+                            <label for="inputPassword4"
+                              >Password
+                              <a href=""
+                                ><i class="fa fa-eye" aria-hidden="true"></i></a
+                            ></label>
+                            <input
+                              class="form-control"
+                              ng-model="user.password"
+                              type="password"
+                              name="pass"
+                              placeholder="Password"
+                              required
+                            />
+                            <span
+                              style="color: Red"
+                              ng-show="personForm.pass.$error.required"
+                            >
+                              Required!
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="inputAddress">Address</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            ng-model="user.address"
+                            placeholder="Address....."
+                          />
+                        </div>
+
+                        <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <label for="inputCity">City</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.city"
+                            />
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label for="inputState">State</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.state"
+                            />
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label for="inputZip">Zip</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.zip"
+                            />
+                          </div>
+                          <div class="form-group col-md-3">
+                            <!-- <label for="inputZip">Location</label> -->
+                            <input
+                              type="text"
+                              class="form-control"
+                              ng-model="user.userLocation"
+                              ng-value="user.userLocation = location"
+                              hidden
+                            />
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            ng-if="user.name && user.userName && user.contactNumber && user.emailId && user.gender && user.password"
+                            data-dismiss="modal"
+                            data-ng-click="addUser(user)"
+                          >
+                            Create
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div id="Paris" class="tabcontent">
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <input
+                            type="text"
+                            class="form-control"
+                            ng-model="userID"
+                            placeholder="User ID"
+                          />
+                        </div>
+                        <div
+                          class="form-group col-md-4"
+                          style="margin-top: 3px"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            ng-if="userID"
+                            data-dismiss="modal"
+                            data-ng-click="assignUser(userID)"
+                          >
+                            Assign
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer class="bg-light mt-auto">
+          <div class="container-fluid">
+            <div
+              class="d-flex align-items-center justify-content-between small"
+            >
+              <div class="text-muted">Copyright &copy; Golo 2020</div>
+              <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#show_hide_password a").on("click", function (event) {
+          event.preventDefault();
+          if ($("#show_hide_password input").attr("type") == "text") {
+            $("#show_hide_password input").attr("type", "password");
+            $("#show_hide_password i").addClass("fa-eye-slash");
+            $("#show_hide_password i").removeClass("fa-eye");
+          } else if (
+            $("#show_hide_password input").attr("type") == "password"
+          ) {
+            $("#show_hide_password input").attr("type", "text");
+            $("#show_hide_password i").removeClass("fa-eye-slash");
+            $("#show_hide_password i").addClass("fa-eye");
+          }
+        });
+      });
+    </script>
+    <script>
+      function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    </script>
+
+    <script src="./admin_assets/js/jquery-3.4.1.min.js"></script>
+    <script src="./admin_assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./admin_assets/js/scripts.js"></script>
+    <script src="./angular/agencyHosts.js"></script>
+  </body>
+</html>
